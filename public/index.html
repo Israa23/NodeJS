@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test </title>
+</head>
+<body>
+    <h1> Add Room </h1>
+    <button id="addRoomButton">Add Room</button>
+    <p id="response"></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        const socket = io("http://localhost:3000");  
+
+        socket.on("roomAdded", (hotel) => {
+            document.getElementById("response").innerText = `Room added! Hotel now has ${hotel.rooms} rooms.`;
+        });
+
+        socket.on("error", (error) => {
+            document.getElementById("response").innerText = `Error: ${error.message}`;
+        });
+
+      
+        document.getElementById("addRoomButton").addEventListener("click", () => {
+            const hotelId = "664f1234567890abcd123456"; 
+            socket.emit("addRoom", { hotelId });
+        });
+    </script>
+</body>
+</html>
